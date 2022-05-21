@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+
 """
 Создать класс Liquid (жидкость), имеющий поля названия и плотности. Определить методы
 переназначения и изменения плотности. Создать производный класс Аlcohol (спирт),
@@ -9,36 +10,53 @@
 
 
 class Liquid:
+    def __init__(self, title, density):
+        self.title = title
+        self.__density = density
 
-    def __init__(self, density: float = 0, name: str = 'liquid'):
-        self._density, self._name = density, name  # начальные значения
+    @property
+    def title(self):
+        return self.__title
 
-    density, name = property(), property()
+    @title.setter
+    def title(self, value: str):
+        self.__title = value
+
+    @property
+    def density(self):
+        return self.__density
 
     @density.setter
     def density(self, value: float):
-        self._density = value
-
-    @name.setter
-    def name(self, value: str):
-        self._name = value
+        self.__density = value
 
 
 class Alcohol(Liquid):
+    def __init__(self, title, density, strength):
+        super().__init__(title, density)
+        self.__strength = strength
 
-    def __init__(self, density: float = 0, name: str = 'alcohol', percent: float = 0):
-        super().__init__(density, name)
-        self._percent = percent
+    @property
+    def strength(self):
+        return self.__strength
 
-    name, percent = property(), property()
-
-    @name.setter
-    def name(self, value: str):
-        self._name = value
-
-    @percent.setter
-    def percent(self, value: float):
-        self._percent = value
+    @strength.setter
+    def strength(self, value: float):
+        self.__strength = value
 
 
-if __name__ == '__main__':
+def main():
+    alcohol = Alcohol("Метиловый", 0.812, 80)
+    liquid = Liquid("Этиловый", 0.806)
+    print(f"Спирт: {alcohol.title}, плотность спирта: {alcohol.density} г/см^3, "
+          f"крепость спирта: {alcohol.strength}%")
+    print(f"Спирт: {liquid.title}, плотность спирта: {liquid.density} г/см^3")
+    alcohol.title = "Пропиловый"
+    alcohol.density = 0.816
+    alcohol.strength = 60
+    print(f"Спирт: {alcohol.title}, плотность спирта: {alcohol.density} г/см^3, "
+          f"крепость спирта: {alcohol.strength}%")
+
+
+if __name__ == "__main__":
+    main()
